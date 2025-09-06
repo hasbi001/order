@@ -22,8 +22,8 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public OrderEntity getById(@PathVariable Long id) {
-        OrderEntity cached = cacheService.getOrder(id);
+    public Order getById(@PathVariable Long id) {
+        Order cached = cacheService.getOrder(id);
         if (cached != null) return cached;
         return repository.findById(id).orElse(null);
     }

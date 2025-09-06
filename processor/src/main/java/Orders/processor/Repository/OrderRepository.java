@@ -1,12 +1,13 @@
 package Orders.processor.Repository;
 
-import Orders.model.entity.Order;
+// Update the import below to match the actual package of your Order entity
+import Orders.processor.model.entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 
-public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
+public interface OrderRepository extends JpaRepository<Order, Long> {
     
     @Query(value = "SELECT customer_name, DATE(created_at) AS order_date, SUM(price * qty) AS total_sales " +
           "FROM orders GROUP BY customer_name, DATE(created_at) ORDER BY total_sales DESC", nativeQuery = true)
