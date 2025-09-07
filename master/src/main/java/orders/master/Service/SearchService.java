@@ -1,22 +1,22 @@
-package Orders.processor.Service;
+package orders.master.Service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import Orders.processor.model.entity.Order;
+import orders.master.model.Entity.Product;
+import orders.master.model.Entity.Customer;
 
 @Service
 public class SearchService {
-    private final WebClient client;
     public SearchService(WebClient.Builder builder) {
       this.client = builder.baseUrl("http://elasticsearch:9200/orders").build();
     }
 
-    public void index(Order order) {
+    public void index(Product product) {
       client.post()
-            .uri("/_doc/" + order.getId())
-            .bodyValue(order)
+            .uri("/_doc/" + product.getId())
+            .bodyValue(product)
             .retrieve()
             .bodyToMono(String.class)
             .onErrorResume(ex -> Mono.empty())
