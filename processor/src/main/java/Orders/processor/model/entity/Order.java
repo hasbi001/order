@@ -13,10 +13,10 @@ public class Order {
   private Long id;
 
   @Column(nullable = false)
-  private String customerId;
+  private Long customerId;
 
   @Column(nullable = false)
-  private String productId;
+  private Long productId;
 
   private int qty;
   private double price;
