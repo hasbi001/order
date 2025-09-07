@@ -16,8 +16,8 @@ public class OrderController {
     }
 
     @PostMapping
-  public String create(@Valid @RequestBody Order req) {
-    producer.sendOrder("Orders",req);
-    return "Order published";
-  }
+    public String create(@Valid @RequestBody Order req) {
+      producer.sendOrder("Orders",req);
+      return "Order published";
+    }
 }

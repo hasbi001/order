@@ -6,17 +6,17 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "orders")
+@Table(name = "order")
 public class Order {
-    @Id
+  @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @Column(nullable = false)
-  private String customerName;
+  private String customerId;
 
   @Column(nullable = false)
-  private String product;
+  private String productId;
 
   private int qty;
   private double price;
