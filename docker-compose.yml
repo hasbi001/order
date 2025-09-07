@@ -1,5 +1,4 @@
 services:
-  # Database mysql
   mysql:
     image: mysql:8.0
     container_name: mysql
@@ -17,7 +16,6 @@ services:
     networks:
       - app-network
 
-  # Redis Cache
   redis:
     image: redis:7
     container_name: redis
@@ -26,7 +24,6 @@ services:
     networks:
       - app-network
 
-  # Zookeeper
   zookeeper:
     image: confluentinc/cp-zookeeper:7.2.1
     container_name: zookeeper
@@ -37,7 +34,6 @@ services:
     networks:
       - app-network
 
-  # Kafka Broker
   kafka:
     image: confluentinc/cp-kafka:7.2.1
     container_name: kafka
@@ -55,7 +51,6 @@ services:
     networks:
       - app-network
 
-  # Elasticsearch
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.6.0
     container_name: elasticsearch
@@ -69,7 +64,6 @@ services:
     networks:
       - app-network
 
-  # Order Service (Producer API)
   order:
     build: ./orderapi
     container_name: orderapi
@@ -85,7 +79,26 @@ services:
     networks:
       - app-network
 
-  # Order Processor Service (Consumer + DB + Redis + Elastic)
+  master:
+    build: ./master
+    container_name: master
+    ports:
+      - "8082:8082"
+    depends_on:
+      - kafka
+      - mysql
+      - redis
+      - elasticsearch
+    environment:
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/orders
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=
+      - SPRING_REDIS_HOST=redis
+      - SPRING_ELASTICSEARCH_URIS=http://elasticsearch:9200
+    networks:
+      - app-network
+  
   processor:
     build: ./processor
     container_name: processor
