@@ -11,7 +11,7 @@ public class CacheService {
     private final RedisTemplate<String, Product> redisProduct;  
     private final RedisTemplate<String, Customer> redisCustomer;  
 
-  public CacheService(RedisTemplate<String, Product> redisProduct,RedisTemplate<String, Product> redisCustomer) {
+  public CacheService(RedisTemplate<String, Product> redisProduct, RedisTemplate<String, Customer> redisCustomer) {
     this.redisProduct = redisProduct;
     this.redisCustomer = redisCustomer;
   }
@@ -20,15 +20,15 @@ public class CacheService {
     redisProduct.opsForValue().set("product:" + product.getId(), product);
   }
 
-  public Product getProduct(Long id) {
-    return redisProduct.opsForValue().get("product:" + id);
+  public Product getProduct(Product product) {
+    return redisProduct.opsForValue().get("product:" + product);
   }
   
   public void saveCustomer(Customer customer ) {
     redisCustomer.opsForValue().set("customer :" + customer.getId(), customer );
   }
 
-  public Customer getCuss(Long id) {
-    return redisCustomer.opsForValue().get("customer :" + id);
+  public Customer getCustomer(Customer customer) {
+    return redisCustomer.opsForValue().get("customer :" + customer);
   }
 }

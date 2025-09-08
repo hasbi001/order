@@ -9,8 +9,10 @@ import orders.master.model.Entity.Customer;
 
 @Service
 public class SearchService {
+    private final WebClient client;
+
     public SearchService(WebClient.Builder builder) {
-      this.client = builder.baseUrl("http://elasticsearch:9200/orders").build();
+      this.client = builder.baseUrl("http://elasticsearch:9200/product").build();
     }
 
     public void index(Product product) {

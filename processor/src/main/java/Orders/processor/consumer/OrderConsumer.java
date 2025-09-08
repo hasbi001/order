@@ -2,7 +2,7 @@ package Orders.processor.consumer;
 
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
-import Orders.orderapi.models.entity.Order;
+import Orders.processor.model.entity.Order;
 import Orders.processor.model.dto.OrderDto;
 import Orders.processor.Repository.OrderRepository;
 import Orders.processor.Service.CacheService;
@@ -25,8 +25,8 @@ public class OrderConsumer {
     @KafkaListener(topics = "orders", groupId = "order_group", containerFactory = "kafkaListenerContainerFactory")
     public void onMessage(OrderDto dto) {
         Order entity = new Order();
-        entity.setCustomerName(dto.getCustomerName());
-        entity.setProduct(dto.getProduct());
+        entity.setCustomerId(dto.getCustomerId());
+        entity.setProductId(dto.getProductId());
         entity.setQty(dto.getQty());
         entity.setPrice(dto.getPrice());
         entity.setCreatedAt(dto.getCreatedAt());

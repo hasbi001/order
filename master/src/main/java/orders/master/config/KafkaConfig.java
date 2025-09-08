@@ -11,24 +11,24 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 import java.util.HashMap;
 import java.util.Map;
 
-import Orders.processor.model.entity.Order;
+import orders.master.model.Entity.Product;
 
 @Configuration
 public class KafkaConfig {
     @Bean
-    public ConsumerFactory<String, Order> consumerFactory() {
+    public ConsumerFactory<String, Product> consumerFactory() {
       Map<String, Object> props = new HashMap<>();
       props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka:9092");
-      props.put(ConsumerConfig.GROUP_ID_CONFIG, "order_group");
+      props.put(ConsumerConfig.GROUP_ID_CONFIG, "product_group");
       props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
-      JsonDeserializer<Order> jsonDeserializer = new JsonDeserializer<>(Order.class, false);
+      JsonDeserializer<Product> jsonDeserializer = new JsonDeserializer<>(Product.class, false);
       jsonDeserializer.addTrustedPackages("*");
       return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), jsonDeserializer);
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, Order> kafkaListenerContainerFactory() {
-      ConcurrentKafkaListenerContainerFactory<String, Order> factory =
+    public ConcurrentKafkaListenerContainerFactory<String, Product> kafkaListenerContainerFactory() {
+      ConcurrentKafkaListenerContainerFactory<String, Product> factory =
           new ConcurrentKafkaListenerContainerFactory<>();
       factory.setConsumerFactory(consumerFactory());
       return factory;
